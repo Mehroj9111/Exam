@@ -29,8 +29,6 @@ public class JobService
     }
     public async Task<Response<AddJob>> Add(AddJob job)
     {
-    try
-    {
         var newJob = new Job()
         {
             JobTitle = job.JobTitle,
@@ -41,14 +39,7 @@ public class JobService
         await _context.SaveChangesAsync();
         return new Response<AddJob>(job);
     }
-     catch (Exception ex)
-    {
-            return new Response<AddJob>(HttpStatusCode.InternalServerError, ex.Message);
-    }
-    }
     public async Task<Response<GetJob>> Update(GetJob job)
-    {
-    try
     {
         var find = await _context.Jobs.FindAsync(job.Id);
 
@@ -59,11 +50,6 @@ public class JobService
         await _context.SaveChangesAsync();
 
         return new Response<GetJob> (job);
-    }
-     catch (Exception ex)
-    {
-            return new Response<GetJob>(HttpStatusCode.InternalServerError, ex.Message);
-    }
     }
     public async Task<Response<string>> Delete(int id)
     {
