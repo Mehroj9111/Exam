@@ -27,8 +27,6 @@ public class DepartmentService
 
     public async Task<Response<AddDepartment>> Add(AddDepartment d)
     {
-    try
-    {
         var newDepartment = new Department()
         {
            DepaartmentName = d.DepaartmentName,         
@@ -40,14 +38,7 @@ public class DepartmentService
         d.Id = newDepartment.DepartmentId;
         return new Response<AddDepartment>(d);
     }
-    catch (Exception ex)
-    {
-            return new Response<AddDepartment>(HttpStatusCode.InternalServerError, ex.Message);
-    }
-    }
     public async Task<Response<GetDepartment>> Update(GetDepartment d)
-    {
-    try
     {
         var find = await _conte.Departments.FindAsync(d.Id);
         if(find == null) return new Response<GetDepartment>(d);
@@ -56,11 +47,6 @@ public class DepartmentService
             find.LocationId = d.LocationId;
         await _conte.SaveChangesAsync();
         return new Response<GetDepartment> (d);
-    }
-    catch (Exception ex)
-    {
-            return new Response<GetDepartment>(HttpStatusCode.InternalServerError, ex.Message);
-    }
     }
     public async Task<Response<string>> Delete(int id)
     {
