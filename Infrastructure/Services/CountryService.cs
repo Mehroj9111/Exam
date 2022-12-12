@@ -26,8 +26,6 @@ public class CountryService
 
     public async Task<Response<AddCountry>> Add(AddCountry c)
     {
-    try
-    {
         var newCountry = new Country()
         {
            CountryName = c.CountryName,         
@@ -38,14 +36,7 @@ public class CountryService
         c.Id = newCountry.Id;
         return new Response<AddCountry>(c);
     }
-    catch (Exception ex)
-    {
-            return new Response<AddCountry>(HttpStatusCode.InternalServerError, ex.Message);
-    }
-    }
     public async Task<Response<GetCountry>> Update(GetCountry country)
-    {
-    try
     {
         var find = await _contt.Countries.FindAsync(country.Id);
         if(find == null) return new Response<GetCountry>(country);
@@ -53,11 +44,6 @@ public class CountryService
         find.RegionId = country.RegionId; 
         await _contt.SaveChangesAsync();
         return new Response<GetCountry> (country);
-    }
-    catch (Exception ex)
-    {
-            return new Response<GetCountry>(HttpStatusCode.InternalServerError, ex.Message);
-    }
     }
     public async Task<Response<string>> Delete(int id)
     {
