@@ -27,8 +27,6 @@ public class JobHistoryService
     }
     public async Task<Response<AddJobHistory>> Add(AddJobHistory jobHistory)
     {
-    try
-    {
         var newJobHistory = new JobHistory()
         {
             StartDate = jobHistory.StartDate,
@@ -40,14 +38,7 @@ public class JobHistoryService
         await _cont.SaveChangesAsync();
         return new Response<AddJobHistory>(jobHistory);
     }
-     catch (Exception ex)
-    {
-            return new Response<AddJobHistory>(HttpStatusCode.InternalServerError, ex.Message);
-    }
-    }
     public async Task<Response<GetJobHistory>> Update(GetJobHistory jobHistory)
-    {
-    try
     {
         var find = await _cont.JobHistories.FindAsync(jobHistory.Id);
 
@@ -58,11 +49,6 @@ public class JobHistoryService
         await _cont.SaveChangesAsync();
 
         return new Response<GetJobHistory> (jobHistory);
-    }
-     catch (Exception ex)
-    {
-            return new Response<GetJobHistory>(HttpStatusCode.InternalServerError, ex.Message);
-    }
     }
     public async Task<Response<string>> Delete(int id)
     {
