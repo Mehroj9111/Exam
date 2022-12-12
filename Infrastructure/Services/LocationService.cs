@@ -28,8 +28,6 @@ public class LocationService
 
     public async Task<Response<AddLocation>> Add(AddLocation l)
     {
-    try
-    {
         var newLocation = new Location()
         {
             StreetAddress = l.StreetAddress,         
@@ -42,14 +40,7 @@ public class LocationService
         await _con.SaveChangesAsync();
         return new Response<AddLocation>(l);
     }
-    catch (Exception ex)
-    {
-            return new Response<AddLocation>(HttpStatusCode.InternalServerError, ex.Message);
-    }
-    }
     public async Task<Response<GetLocation>> Update(GetLocation l)
-    {
-    try
     {
         var find = await _con.Locations.FindAsync(l);
         if(find == null) return new Response<GetLocation>(l);
@@ -59,11 +50,6 @@ public class LocationService
             find.StateProvince = l.StateProvince;          
         await _con.SaveChangesAsync();
         return new Response<GetLocation> (l);
-    }
-    catch (Exception ex)
-    {
-            return new Response<GetLocation>(HttpStatusCode.InternalServerError, ex.Message);
-    }
     }
     public async Task<Response<string>> Delete(int id)
     {
