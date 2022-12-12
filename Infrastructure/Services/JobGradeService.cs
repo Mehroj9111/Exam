@@ -27,8 +27,6 @@ public class JobGradeService
 
     public async Task<Response<AddJobGrade>> Add(AddJobGrade g)
     {
-    try
-    {
         var newJobGrade = new JobGrade()
         {
           GradeLevel = g.GradeLevel,         
@@ -39,14 +37,7 @@ public class JobGradeService
         await _con.SaveChangesAsync();
         return new Response<AddJobGrade>(g);
     }
-    catch (Exception ex)
-    {
-            return new Response<AddJobGrade>(HttpStatusCode.InternalServerError, ex.Message);
-    }
-    }
     public async Task<Response<GetJobGrade>> Update(GetJobGrade jobGrade)
-    {
-    try
     {
         var find = await _con.JobGrades.FindAsync(jobGrade.Id);
         if(find == null) return new Response<GetJobGrade>(jobGrade);
@@ -55,11 +46,6 @@ public class JobGradeService
         find.HighestSal = jobGrade.HighestSal; 
         await _con.SaveChangesAsync();
         return new Response<GetJobGrade> (jobGrade);
-    }
-    catch (Exception ex)
-    {
-            return new Response<GetJobGrade>(HttpStatusCode.InternalServerError, ex.Message);
-    }
     }
     public async Task<Response<string>> Delete(int id)
     {
