@@ -37,8 +37,6 @@ public class EmployeeService
     }
     public async Task<Response<AddEmployee>> Add(AddEmployee e)
     {
-    try
-    {
         var path = Path.Combine(_hostEnvironment.WebRootPath, "Images");
         if(Directory.Exists(path) == false)
         {
@@ -68,14 +66,7 @@ public class EmployeeService
         e.Id = newEmployee.EmployeeId;
         return new Response<AddEmployee>(e);
     }
-    catch (Exception ex)
-    {
-            return new Response<AddEmployee>(HttpStatusCode.InternalServerError, ex.Message);
-    }
-    }
     public async Task<Response<AddEmployee>> Update(AddEmployee e)
-    {
-    try
     {
         var find = await _contex.Employees.FindAsync(e.Id);
         if(find == null) return new Response<AddEmployee>(e);
@@ -92,11 +83,6 @@ public class EmployeeService
            find.File = e.File;         
         await _contex.SaveChangesAsync();
         return new Response<AddEmployee> (e);
-    }
-    catch (Exception ex)
-    {
-            return new Response<AddEmployee>(HttpStatusCode.InternalServerError, ex.Message);
-    }
     }
     public async Task<Response<string>> Delete(int id)
     {
