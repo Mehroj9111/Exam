@@ -25,8 +25,6 @@ public class RegionService
 
     public async Task<Response<AddRegion>> Add(AddRegion region)
     {
-    try
-    {
         var newRegion = new Region()
         {
            RegionName = region.RegionName
@@ -35,25 +33,13 @@ public class RegionService
         await _con.SaveChangesAsync();
         return new Response<AddRegion>(region);
     }
-    catch (Exception ex)
-    {
-            return new Response<AddRegion>(HttpStatusCode.InternalServerError, ex.Message);
-    }
-    }
     public async Task<Response<GetRegion>> Update(GetRegion region)
-    {
-    try
     {
         var find = await _con.Regions.FindAsync(region.Id);
         if(find == null) return new Response<GetRegion>(region);
         find.RegionName = region.RegionName; 
         await _con.SaveChangesAsync();
         return new Response<GetRegion> (region);
-    }
-    catch (Exception ex)
-    {
-            return new Response<GetRegion>(HttpStatusCode.InternalServerError, ex.Message);
-    }
     }
     public async Task<Response<string>> Delete(int id)
     {
